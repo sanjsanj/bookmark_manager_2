@@ -12,7 +12,8 @@ DataMapper.auto_upgrade!
 class BookmarkManager < Sinatra::Base
 
   get '/' do
-    'Hello BookmarkManager!'
+    @links = Link.all
+    erb :index
   end
 
   run! if app_file == $PROGRAM_NAME
