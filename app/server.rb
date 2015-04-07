@@ -2,6 +2,9 @@ require 'sinatra/base'
 require 'data_mapper'
 require 'tag'
 require 'user'
+require 'link'
+require_relative 'helpers/application'
+require_relative 'data_mapper_setup'
 
 env = ENV['RACK_ENV'] || 'development'
 
@@ -21,9 +24,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/links' do
-    tags = params["tags"].split(" ").map do |tag|
-      Tag.first_or_create(:text => tag)
-    end
+    tags = params["tags"].split(" ").map{|tag| Tag.first_or_create(:text => tag)}
     url = params["url"]
     title = params["title"]
     Link.create(:url => url, :title => title, :tags => tags)
